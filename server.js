@@ -8,6 +8,7 @@ const express = require('express');
 const pg = require('pg');
 const app = express();
 const ejs = require('ejs');
+const superagent = require('superagent');
 
 
 
@@ -26,7 +27,20 @@ app.get('/', (req, res) => {
 });
 
 
+app.post('/searches', (req, res) => {
+  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=author+inauthor:${req.body.author}`).then(data => {
 
+    const books = data.body.items.map(book => ({name: book.volumeInfo.title}));
+
+    console.log(books);
+
+    res.render('book-results', {
+      books: books
+    });
+  });
+
+
+});
 
 
 
