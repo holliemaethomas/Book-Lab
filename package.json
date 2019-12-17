@@ -1,0 +1,27 @@
+{
+  "name": "book-lab",
+  "version": "1.0.0",
+  "description": "book app",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holliemaethomas/Book-Lab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/holliemaethomas/Book-Lab/issues"
+  },
+  "homepage": "https://github.com/holliemaethomas/Book-Lab#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "pg": "^7.15.0",
+    "superagent": "^5.1.2"
+  }
+}
