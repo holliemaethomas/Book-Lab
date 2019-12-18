@@ -12,15 +12,18 @@
 <body>
   <section id="formBox">
     <h2 id="boxTitle">Enter your query below.</h2>
-    <form action="/searches"  method="post">
-      <input class="inputQueryHere" type="text" name="entry" placeholder="title/author">
+    <form action="/"  method="POST">
+      <input class="inputQueryHere" type="text" name="query" placeholder="title/author">
         <label for="title">Title</label>
-      <input class="inputQueryHere" type="radio" name="title">
+      <input class="inputQueryHere" type="radio" name="title" value="title">
         <label for="author">Author</label>
-      <input class="inputQueryHere" type="radio" name="author">
+      <input class="inputQueryHere" type="radio" name="author" value="author">
       <button type="submit" id="button">Search</button>
     </form>
   </section>
+  <main>
+
+  </main>
 
 </body>
 

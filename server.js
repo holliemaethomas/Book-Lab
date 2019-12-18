@@ -9,11 +9,39 @@ const pg = require('pg');
 const app = express();
 const superagent = require('superagent');
 
-// const ejs = require('ejs');
 
 const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', e => console.error(e));
 client.connect();
-client.on('error', err => console.error(err));
+
+
+// set view engine
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./public'));
+
+/////app.get for home page
+app.get('/', (req, res) => {
+  const allTableData = 'SELECT * FROM readtheseyo';
+  client.query(allTableData).then(function(renderTable){
+    // console.logs(renderTable);
+    const arrayOBooks = sqlData.rows;
+    // console.log(sqlData.rows);
+    if(arrayOBooks.length > 0){
+      res.render('index', {arrayOBooks: arrayOBooks});
+    }else{
+      res.render('index');
+    }
+  });
+
+  res.render('./pages/index');
+});
+
+function renderTable (renderTable){
+  // console.logs(renderTable.rows);
+  const arrayOBooks = sqlData.rows;
+}
+
 
 ///// constructor
 // function ObjectifyBook (title, author) {
@@ -23,25 +51,33 @@ client.on('error', err => console.error(err));
 //   this.search_query = search_query
 // }
 
-// set view engine
-app.set('view engine', 'ejs');
+/////route creation?
+app.get('/show', showresults);
+function showresults(req, res){
+  res.render('show')
+}
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'));
+app.post('/show', handleShowresults);
+function handleShowresults(req, res){
+  res.render('show')
+}
 
-app.get('/', (req, res) => {
-  res.render('./pages/index');
-});
 
-app.post('/searches', (req, res) => {
+app.post('/', (req, res) => {
 
-  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=author+inauthor:${req.body.author}`).then(data => {
+  const query = 'Star Wars';
 
-    const books = data.body.items.map(book => ({name: book.volumeInfo.title}));
+  console.log(query);
 
-    console.log(books);
+  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`).then(bookInfo => {
 
-    res.render('./pages/searches');
+    // console.log(bookInfo.body.items);
+
+    console.log(bookInfo);
+
+    // const books = data.body.items.map(book => ({name: book.volumeInfo.title}));
+
+    res.render('./pages/index', {books: bookInfo.body.items});
 
     // res.render('book-results', {
     //   books: books
