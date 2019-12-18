@@ -29,20 +29,23 @@ app.get('/', (req, res) => {
 
 
 /// constructor
-function BookObject(book) {
-  this.title = book.volumeInfo.title
-  this.authors = book.volumeInfo.authors
-  this.description = book.volumeInfo.description
-  this.image = book.volumeinfo.imagelinks.thumbnail
+function BookObject(books) {
+  this.title = books.volumeInfo.title
+  this.authors = books.volumeInfo.authors
+  this.description = books.volumeInfo.description
+  this.image = books.volumeinfo.imagelinks.thumbnail
 }
 
 /////route creation?
 // credit for this functionality is from class demo
 app.post('/show', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
-    books.push(data.body.items);
-    console.log(books);
+    console.log(data);
+    for (let i = 0; i < 10; i++) {
+      books.push(data.body.items[i])
+    }
 
+    console.log(books);
     const returns = books.map(book => {
       return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
     })
@@ -50,6 +53,13 @@ app.post('/show', (req, res) => {
   })
     .catch(errors)
 });
+
+function BookObject(books) {
+  this.title = books.volumeInfo.title
+  this.authors = books.volumeInfo.authors
+  this.description = books.volumeInfo.description
+  this.image = books.volumeinfo.imagelinks.thumbnail
+}
 
 
 app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
