@@ -2,17 +2,22 @@
   color: white;
 }
 
+h1{
+  text-align: center;
+}
+
 body {
   background-color: rgb(0, 0, 0);
   border: width 2px;
   border-style: solid;
-  border-color: red;
+  border-color: purple;
   width: 97vw;
   height: 2000px;
 }
 
 #button{
   color: black;
+  margin-bottom: 10vh;
 }
 
 #formBox {
@@ -21,7 +26,7 @@ body {
   width: 100%;
   border: width 2px;
   border-style: solid;
-  border-color: red;
+  border-color: hotpink;
 }
 
 .inputQueryHere{
@@ -33,5 +38,17 @@ body {
   border: width 2px;
   border-style: solid;
   border-color: red;
-  background-color: white;
+  background-color: black;
+}
+
+#searchResults{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#searchResults2{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
