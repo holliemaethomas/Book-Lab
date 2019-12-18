@@ -1,46 +1,63 @@
 'use strict';
 
 
-// call in all requirements for project
-const PORT = process.env.PORT || 3099
-require('dotenv').config();
 const express = require('express');
-const pg = require('pg');
-const app = express();
 const superagent = require('superagent');
 
+const app = express();
 
-const client = new pg.Client(process.env.DATABASE_URL);
-client.on('error', e => console.error(e));
-client.connect();
-
-
-// set view engine
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'));
 
-/////app.get for home page
 app.get('/', (req, res) => {
-  const allTableData = 'SELECT * FROM readtheseyo';
-  client.query(allTableData).then(function(renderTable){
-    // console.logs(renderTable);
-    const arrayOBooks = sqlData.rows;
-    // console.log(sqlData.rows);
-    if(arrayOBooks.length > 0){
-      res.render('index', {arrayOBooks: arrayOBooks});
-    }else{
-      res.render('index');
-    }
-  });
+  superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star wars'}`)
+    .then( bookResponse => {
+      // console.log(bookResponse);
+      res.render('index', { books: bookResponse.body.items});
+    });
 
-  res.render('./pages/index');
 });
 
-function renderTable (renderTable){
-  // console.logs(renderTable.rows);
-  const arrayOBooks = sqlData.rows;
-}
+const PORT = process.env.PORT || 3099
+app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
+
+
+// require('dotenv').config();
+// const pg = require('pg');
+
+
+// const client = new pg.Client(process.env.DATABASE_URL);
+// client.on('error', e => console.error(e));
+// client.connect();
+
+
+
+// app.use(express.urlencoded({ extended: true }));
+
+///////////////
+// app.use(express.static('/styles/layout.css'));
+
+/////app.get for home page
+// const allTableData = 'SELECT * FROM readtheseyo';
+// client.query(allTableData).then(function(renderTable){
+// console.logs(renderTable);
+// const arrayOBooks = sqlData.rows;
+// console.log(sqlData.rows);
+// if(arrayOBooks.length > 0){
+//   res.render('index', {arrayOBooks: arrayOBooks});
+// }else{
+//   res.render('index');
+// }
+// });
+
+////////////////
+// app.get('/', (req, res) => {
+//   res.render('./pages/index');
+// });
+
+// function renderTable (renderTable){
+// console.logs(renderTable.rows);
+// const arrayOBooks = sqlData.rows;
+// }
 
 
 ///// constructor
@@ -52,41 +69,25 @@ function renderTable (renderTable){
 // }
 
 /////route creation?
-app.get('/show', showresults);
-function showresults(req, res){
-  res.render('show')
-}
+// app.get('/show', showresults);
+// function showresults(req, res){
+//   res.render('show')
+// }
 
-app.post('/show', handleShowresults);
-function handleShowresults(req, res){
-  res.render('show')
-}
-
-
-app.post('/', (req, res) => {
-
-  const query = 'Star Wars';
-
-  console.log(query);
-
-  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`).then(bookInfo => {
-
-    // console.log(bookInfo.body.items);
-
-    console.log(bookInfo);
-
-    // const books = data.body.items.map(book => ({name: book.volumeInfo.title}));
-
-    res.render('./pages/index', {books: bookInfo.body.items});
-
-    // res.render('book-results', {
-    //   books: books
-    // });
-  });
-});
+// app.post('/show', handleShowresults);
+// function handleShowresults(req, res){
+//   res.render('show')
+// }
 
 
+// app.post('/', (req, res) => {
+// superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${ 'Star Wars' }`)
+//     .then(bookInfo => {
+//       console.log(bookInfo);
+//       res.render('index');
+//     });
 
-app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
+// });
+
 
 
