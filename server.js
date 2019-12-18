@@ -18,19 +18,10 @@ function errors(error, response) {
 }
 console.log(errors);
 
-// constructor
-// function BookObject(book) {
-//   this.title = book.volumeInfo.title
-//   this.authors = book.volumeInfo.authors
-//   this.description = book.volumeInfo.description
-//   console.log(this)
-// }
-
-
 app.get('/', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star wars'}`)
     .then(book => {
-      // console.log(book);
+      console.log(book);
       res.render('index', { books: book.body.items });
     });
 
@@ -67,8 +58,8 @@ function BookObject(books) {
   this.description = books.volumeInfo.description
   this.image = books.volumeinfo.imagelinks.thumbnail
 }
-  
-  
+
+
 app.post('/', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star trek'}`)
     .then(book => {
@@ -76,6 +67,6 @@ app.post('/', (req, res) => {
       res.render('show', { books: book.body.items });
     });
 
-const PORT = process.env.PORT || 3099
-app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
+  const PORT = process.env.PORT || 3099
+  app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
 
