@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <link rel="stylesheet" href="styles/layout.css">
+  <title>RESULTS</title>
 </head>
 <body>
+  <h1>SEARCHES</h1>
   <ul>
-
     <% books.forEach((book) => { %>
-     
       <li><%= book.title %> : <%= book.author %> <img src="<%= book.image_url %>" /></li>
       <li><%= book.description %> : <%= book.isbn %> </li>
-     
   </ul>
 </body>
 </html>
