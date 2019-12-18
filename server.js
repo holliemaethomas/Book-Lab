@@ -33,7 +33,7 @@ function BookObject(book) {
   this.title = book.volumeInfo.title
   this.authors = book.volumeInfo.authors
   this.description = book.volumeInfo.description
-  console.log(this)
+  this.image = book.volumeinfo.imagelinks.thumbnail
 }
 
 /////route creation?
@@ -46,7 +46,7 @@ app.post('/show', (req, res) => {
     const returns = books.map(book => {
       return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
     })
-    res.render('views/pages/show', { returns: returns });
+    res.render('/show', { returns: returns });
   })
     .catch(errors)
 });
