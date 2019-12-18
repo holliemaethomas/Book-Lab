@@ -14,7 +14,7 @@ app.use(express.static('styles'));
 // function to handle errors
 function errors(error, response) {
   console.error(error);
-  response.render('error');
+  response.render('./views/pages/error');
 }
 console.log(errors);
 
@@ -39,15 +39,38 @@ app.get('/', (req, res) => {
 
 /////route creation?
 // credit for this functionality is from class demo
+
+app.post('/show', (req, res) => {
+  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
+    console.log(data);
+    for (let i = 0; i < 10; i++) {
+      books.push(data.body.items[i])
+    }
+
+    console.log(books);
+    const returns = books.map(book => {
+      return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
+    })
+    res.render('views/pages/show', { returns: returns });
+  })
+    .catch(errors)
+
+});
+
+function BookObject(books) {
+  this.title = books.volumeInfo.title
+  this.authors = books.volumeInfo.authors
+  this.description = books.volumeInfo.description
+  this.image = books.volumeinfo.imagelinks.thumbnail
+}
+  
+  
 app.post('/', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star trek'}`)
     .then(book => {
       // console.log(book);
       res.render('show', { books: book.body.items });
     });
-
-});
-
 
 const PORT = process.env.PORT || 3099
 app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
