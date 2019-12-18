@@ -1,14 +1,15 @@
 'use strict';
 
-
-// call in all requirements for project
-const PORT = process.env.PORT || 3000
-require('dotenv').config();
+// global const
 const express = require('express');
-const app = express();
 const superagent = require('superagent');
-const books = [];
+const app = express();
 
+// const books = [];
+
+// app.'s
+app.set('view engine', 'ejs');
+app.use(express.static('styles'));
 
 // function to handle errors
 function errors(error, response) {
@@ -17,20 +18,31 @@ function errors(error, response) {
 }
 console.log(errors);
 
-// set view engine
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'));
+// constructor
+// function BookObject(book) {
+//   this.title = book.volumeInfo.title
+//   this.authors = book.volumeInfo.authors
+//   this.description = book.volumeInfo.description
+//   console.log(this)
+// }
 
-/////app.get for home page
+
 app.get('/', (req, res) => {
-  res.render('./pages/index');
+  superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star wars'}`)
+    .then(book => {
+      // console.log(book);
+      res.render('index', { books: book.body.items });
+    });
+
 });
 
 
 /////route creation?
 // credit for this functionality is from class demo
-app.post('show', (req, res) => {
+
+
+app.post('/show', (req, res) => {
+
   superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
     for (let i = 0; i < 10; i++) {
       books.push(data.body.items[i])
@@ -42,6 +54,7 @@ app.post('show', (req, res) => {
     })
     res.render('./pages/show', { returns: returns });
   })
+
     .catch(err => {
       errors(err, res)
     });
@@ -54,7 +67,15 @@ function BookObject(books) {
   this.description = books.volumeInfo.description
   this.image = books.volumeinfo.imagelinks.thumbnail
 }
+  
+  
+app.post('/', (req, res) => {
+  superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star trek'}`)
+    .then(book => {
+      // console.log(book);
+      res.render('show', { books: book.body.items });
+    });
 
-
+const PORT = process.env.PORT || 3099
 app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
 
