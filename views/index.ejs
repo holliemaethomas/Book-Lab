@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="layout.css">
   <title>BOOKS</title>
 </head>
 
@@ -22,9 +23,10 @@
     </form>
   </section>
   <main>
-    <div>
+    <div id="searchResults">
       <% books.forEach(book => { %>
-        <%= book.volumeInfo.title %>
+        <h2><%= book.volumeInfo.title %></h2>
+        <h5>Written by <%= book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'unknown' %></h5>
       <% }) %>
     </div>
   </main>

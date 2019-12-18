@@ -8,6 +8,8 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use(express.static('styles'));
+
 app.get('/', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes/?q=${'star wars'}`)
     .then( bookResponse => {
@@ -33,8 +35,6 @@ app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
 
 // app.use(express.urlencoded({ extended: true }));
 
-///////////////
-// app.use(express.static('/styles/layout.css'));
 
 /////app.get for home page
 // const allTableData = 'SELECT * FROM readtheseyo';
