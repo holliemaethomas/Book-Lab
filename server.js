@@ -13,7 +13,7 @@ const books = [];
 // function to handle errors
 function errors(error, response) {
   console.error(error);
-  response.render('error');
+  response.render('./views/pages/error');
 }
 console.log(errors);
 
@@ -28,14 +28,6 @@ app.get('/', (req, res) => {
 });
 
 
-/// constructor
-function BookObject(books) {
-  this.title = books.volumeInfo.title
-  this.authors = books.volumeInfo.authors
-  this.description = books.volumeInfo.description
-  this.image = books.volumeinfo.imagelinks.thumbnail
-}
-
 /////route creation?
 // credit for this functionality is from class demo
 app.post('/show', (req, res) => {
@@ -49,7 +41,7 @@ app.post('/show', (req, res) => {
     const returns = books.map(book => {
       return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
     })
-    res.render('/show', { returns: returns });
+    res.render('views/pages/show', { returns: returns });
   })
     .catch(errors)
 });
