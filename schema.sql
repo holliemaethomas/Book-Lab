@@ -1,11 +1,12 @@
 
 DROP TABLE IF EXISTS readtheseyo;
 
-CREATE TABLE IF NOT EXISTS
-readtheseyo (
+CREATE TABLE IF NOT EXISTS books(
   id SERIAL PRIMARY KEY,
-  search_query VARCHAR(255) NOT NULL,
-  formatted_query VARCHAR(255) NOT NULL,
-  latitude NUMERIC (18,6),
-  longitude NUMERIC (18,6)
+  author VARCHAR(250),
+  title VARCHAR(250),
+  isbn VARCHAR(250),
+  image_url VARCHAR(250), 
+  description TEXT,
+
 );

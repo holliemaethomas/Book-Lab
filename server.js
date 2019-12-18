@@ -30,13 +30,12 @@ app.get('/', (req, res) => {
 
 /////route creation?
 // credit for this functionality is from class demo
-app.post('show', (req, res) => {
+app.post('/show', (req, res) => {
   superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
     for (let i = 0; i < 10; i++) {
       books.push(data.body.items[i])
+      console.log(books);
     }
-
-    console.log(books);
     const returns = books.map(book => {
       return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
     })
