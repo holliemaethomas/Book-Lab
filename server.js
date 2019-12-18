@@ -2,18 +2,20 @@
 
 
 // call in all requirements for project
-const PORT = process.env.PORT || 3099
+const PORT = process.env.PORT || 3000
 require('dotenv').config();
 const express = require('express');
-const pg = require('pg');
 const app = express();
 const superagent = require('superagent');
+const books = [];
 
 
-const client = new pg.Client(process.env.DATABASE_URL);
-client.on('error', e => console.error(e));
-client.connect();
-
+// function to handle errors
+function errors(error, response) {
+  console.error(error);
+  response.render('error');
+}
+console.log(errors);
 
 // set view engine
 app.set('view engine', 'ejs');
@@ -22,71 +24,33 @@ app.use(express.static('./public'));
 
 /////app.get for home page
 app.get('/', (req, res) => {
-  const allTableData = 'SELECT * FROM readtheseyo';
-  client.query(allTableData).then(function(renderTable){
-    // console.logs(renderTable);
-    const arrayOBooks = sqlData.rows;
-    // console.log(sqlData.rows);
-    if(arrayOBooks.length > 0){
-      res.render('index', {arrayOBooks: arrayOBooks});
-    }else{
-      res.render('index');
-    }
-  });
-
   res.render('./pages/index');
 });
 
-function renderTable (renderTable){
-  // console.logs(renderTable.rows);
-  const arrayOBooks = sqlData.rows;
+
+/// constructor
+function BookObject(book) {
+  this.title = book.volumeInfo.title
+  this.authors = book.volumeInfo.authors
+  this.description = book.volumeInfo.description
+  console.log(this)
 }
-
-
-///// constructor
-// function ObjectifyBook (title, author) {
-//   this.title = title,
-//   this.author = author
-//   this.formatted_query = formatted_address,
-//   this.search_query = search_query
-// }
 
 /////route creation?
-app.get('/show', showresults);
-function showresults(req, res){
-  res.render('show')
-}
+// credit for this functionality is from class demo
+app.post('/show', (req, res) => {
+  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
+    books.push(data.body.items);
+    console.log(books);
 
-app.post('/show', handleShowresults);
-function handleShowresults(req, res){
-  res.render('show')
-}
-
-
-app.post('/', (req, res) => {
-
-  const query = 'Star Wars';
-
-  console.log(query);
-
-  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`).then(bookInfo => {
-
-    // console.log(bookInfo.body.items);
-
-    console.log(bookInfo);
-
-    // const books = data.body.items.map(book => ({name: book.volumeInfo.title}));
-
-    res.render('./pages/index', {books: bookInfo.body.items});
-
-    // res.render('book-results', {
-    //   books: books
-    // });
-  });
+    const returns = books.map(book => {
+      return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
+    })
+    res.render('views/pages/show', { returns: returns });
+  })
+    .catch(errors)
 });
 
 
-
 app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
-
 
