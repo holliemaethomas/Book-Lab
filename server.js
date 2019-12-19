@@ -7,8 +7,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const superagent = require('superagent');
-const books = [];
-
 
 // function to handle errors
 function errors(error, response) {
@@ -27,33 +25,28 @@ app.get('/', (req, res) => {
   res.render('./pages/index');
 });
 
+function Book(bookObject) {
+  this.title = bookObject.volumeInfo.title
+  this.authors = bookObject.volumeInfo.authors
+  this.description = bookObject.volumeInfo.description
+  this.image_url = bookObject.volumeInfo.imageLinks && bookObject.volumeInfo.imageLinks.thumbnail;
+}
 
-/////route creation?
+
+
 // credit for this functionality is from class demo
-app.post('show', (req, res) => {
-  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.searchType}:${req.body.query}`).then(data => {
-    for (let i = 0; i < 10; i++) {
-      books.push(data.body.items[i])
-    }
-
-    console.log(books);
-    const returns = books.map(book => {
-      return new BookObject(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description)
+app.post('/show', (req, res) => {
+  superagent.get(`https://www.googleapis.com/books/v1/volumes?q=${req.body.searchType}+in${req.body.query}`)
+    .then(data => {
+      const books = data.body.items.map(book => new Book(book));
+      res.render('./pages/show', { books });
     })
-    res.render('./pages/show', { returns: returns });
-  })
     .catch(err => {
       errors(err, res)
     });
-});
-// yosh helped me write the error function
+})
 
-function BookObject(books) {
-  this.title = books.volumeInfo.title
-  this.authors = books.volumeInfo.authors
-  this.description = books.volumeInfo.description
-  this.image = books.volumeinfo.imagelinks.thumbnail
-}
+// yosh helped me write the error function
 
 
 app.listen(PORT, () => console.log(`Port ${PORT} for the win!`));
