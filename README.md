@@ -18,5 +18,5 @@ Express, EJS, Heroku, Superagent and PG
 ## Change Log
 
 ## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+This assignment was completed with inspiration from the TA's and various class demos.
 -->
