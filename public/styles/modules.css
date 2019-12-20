@@ -1,0 +1,53 @@
+#header1{
+  background-color: rgb(95, 95, 95);
+  border: width 2px;
+  border-style: solid;
+  border-color: rgb(41, 98, 204);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 3vh;
+}
+
+#header2{
+  background-color: rgba(83, 83, 83, 0.568);
+  border: width 2px;
+  border-style: solid;
+  border-color: rgb(185, 41, 204);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 3vh;
+}
+
+#indexButton{
+  color: black;
+  background-color: red;
+  margin-bottom: 10vh;
+}
+
+#formBox {
+  color: black;
+  text-align: center;
+  width: 98%;
+  border: width 2px;
+  border-style: solid;
+  border-color: hotpink;
+}
+
+#searchResults{
+  border: width 2px;
+  border-style: solid;
+  border-color: rgb(46, 204, 41);
+}
+
+#bookCover{
+  width: 15vw;
+  margin: auto;
+}
+
+#searchResults{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}

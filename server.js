@@ -18,12 +18,13 @@ function errors(error, res) {
   console.error(error);
   res.render('./pages/error');
 }
+
 console.log(errors);
 
 // set view engine
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'));
+app.use(express.static('public'));
 
 /////app.get for home page
 app.get('/', (req, res) => {
