@@ -12,22 +12,24 @@
 
 <body>
   <header id="header1">
-    <nav>
-      <span> Book APP </span>
-      <a href="/">Home</a>
+    <nav id="navbar">
+      <p> Book APP </p>
+      <p><a href="/">Home</a></p>
+    </nav>
   </header>
   <header id="header2">
-
+    <p id="boxTitle">Search Results</p>
   </header>
-  </nav>
   <div id="searchResults">
-    <% books.forEach(book => { %>
-    <img id="bookCover" src="<%= book.image_url %>">
-    <h2><%= book.title %></h2>
-    <h5>Written by <%= book.authors ? book.authors.join(', ') : 'unknown' %></h5>
-    <h4>Summery: <%= book.description %></h4>
+    <section class="forEachResults">
+      <% books.forEach(book => { %>
+      <img id="bookCover" src="<%= book.image_url %>">
+      <h2><%= book.title %></h2>
+      <h5>Written by <%= book.authors ? book.authors.join(', ') : 'unknown' %></h5>
+      <p>Summery: <%= book.description %></p>
 
-    <% }) %>
+      <% }) %>
+    </section>
 
 </body>
 

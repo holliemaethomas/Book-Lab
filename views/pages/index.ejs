@@ -11,20 +11,24 @@
 
 <body>
   <header id="header1">
-
+    <nav id="navbar">
+      <p> Book APP </p>
+      <p><a href="/">Home</a></p>
+    </nav>
   </header>
   <header id="header2">
-
+    <p id="boxTitle">Enter your query below</p>
   </header>
   <section id="formBox">
-    <h2 id="boxTitle">Enter your query below.</h2>
-    <form action="/show"  method="POST">
+    <form action="/show" method="POST">
       <input class="inputQueryHere" type="text" name="query" placeholder="title/author">
-        <label for="title">Title</label>
-      <input class="inputQueryHere" type="radio" name="searchType" value="title">
-        <label for="author">Author</label>
-      <input class="inputQueryHere" type="radio" name="searchType" value="author">
-      <button type="submit" id="indexButton">Search</button>
+      <label for="title">Title
+        <input class="inputQueryHere" type="radio" name="searchType" value="title">
+      </label>
+      <label for="author">Author
+        <input class="inputQueryHere" type="radio" name="searchType" value="author">
+      </label>
+      <button type="submit" id="indexButton">Search Google Books</button>
     </form>
   </section>
   <main>
