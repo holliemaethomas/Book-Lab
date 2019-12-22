@@ -7,10 +7,11 @@ h1{
 }
 
 body {
-  background-color: rgb(0, 0, 0);
-  border: width 2px;
+  background-color: black;
+  /* border: width 2px;
   border-style: solid;
-  border-color: purple;
-  width: 98%;
-  height: 100%;
+  border-color: purple; */
+  margin-top: 16vh;
+  left: 0;
+  right: 0;
 }
